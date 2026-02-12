@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhishFort — Parallax Demo A</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 250vh;
+    background: #F8FAFB;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 80px 20px 200px;
+  }
+  .parallax-wrap {
+    position: sticky;
+    top: 60px;
+    width: 100%;
+    max-width: 650px;
+    height: 500px;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0,40,97,0.12), 0 2px 8px rgba(0,40,97,0.06);
+    overflow: hidden;
+    background: #F8FAFB;
+  }
+  .parallax-wrap img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform;
+  }
+  .layer-mid, .layer-front {
+    mix-blend-mode: darken;
+  }
+</style>
+</head>
+<body>
+  <div class="parallax-wrap">
+    <img src="a-bg.jpg" class="layer-bg" alt="Background">
+    <img src="a-mid.jpg" class="layer-mid" alt="Browser analysis">
+    <img src="a-front.jpg" class="layer-front" alt="Shield">
+  </div>
+  <script>
+    const wrap = document.querySelector('.parallax-wrap');
+    const bg = wrap.querySelector('.layer-bg');
+    const mid = wrap.querySelector('.layer-mid');
+    const front = wrap.querySelector('.layer-front');
+
+    function onScroll() {
+      const y = window.scrollY;
+      bg.style.transform    = 'translateY(' + (y * 0.03) + 'px)';
+      mid.style.transform   = 'translateY(' + (y * 0.08) + 'px)';
+      front.style.transform = 'translateY(' + (y * 0.15) + 'px)';
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
+</body>
+</html>
