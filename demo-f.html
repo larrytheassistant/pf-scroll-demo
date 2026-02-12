@@ -30,8 +30,13 @@
     inset: 0;
     will-change: transform;
   }
-  /* Layer 0: SVG honeycomb */
-  .layer-0 svg { width: 100%; height: 100%; opacity: 0.06; }
+  /* Layer 0: honeycomb image */
+  .layer-0 {
+    inset: -15%;
+    background: url('d-back.png') no-repeat center center;
+    background-size: cover;
+    opacity: 0.5;
+  }
   /* Layer 1: radial gradient blobs */
   .layer-1 {
     background:
@@ -92,18 +97,8 @@
 </head>
 <body>
 <div class="container">
-  <!-- Layer 0: honeycomb SVG -->
-  <div class="layer layer-0">
-    <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <pattern id="hc" x="0" y="0" width="56" height="48" patternUnits="userSpaceOnUse">
-          <path d="M14 0 L28 8 28 24 14 32 0 24 0 8Z" fill="none" stroke="#002861" stroke-width="0.8"/>
-          <path d="M42 16 L56 24 56 40 42 48 28 40 28 24Z" fill="none" stroke="#002861" stroke-width="0.8"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#hc)"/>
-    </svg>
-  </div>
+  <!-- Layer 0: honeycomb image -->
+  <div class="layer layer-0"></div>
   <!-- Layer 1: gradient blobs -->
   <div class="layer layer-1"></div>
   <!-- Layer 2: hero image -->
