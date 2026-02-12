@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhishFort – Parallax Scroll Demo B</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f0f4f8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .spacer {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #002861;
+    font-size: 1.2rem;
+    font-weight: 600;
+    opacity: 0.4;
+  }
+
+  .parallax-container {
+    position: relative;
+    max-width: 650px;
+    margin: 0 auto;
+    height: 600px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 40, 97, 0.18), 0 4px 16px rgba(0, 40, 97, 0.08);
+    background: #fff;
+  }
+
+  .parallax-layer {
+    position: absolute;
+    inset: -60px;
+    will-change: transform;
+  }
+
+  /* Layer 0: SVG honeycomb */
+  .layer-honeycomb {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 34L0 84V50l28-16 28 16v34L28 100z' fill='none' stroke='%23002861' stroke-width='0.5' opacity='0.08'/%3E%3C/svg%3E");
+    background-size: 56px 100px;
+    z-index: 0;
+  }
+
+  /* Layer 1: Gradient blobs */
+  .layer-gradients {
+    z-index: 1;
+    background:
+      radial-gradient(ellipse 300px 300px at 20% 30%, rgba(43, 181, 178, 0.15), transparent),
+      radial-gradient(ellipse 250px 250px at 75% 60%, rgba(0, 142, 186, 0.12), transparent),
+      radial-gradient(ellipse 200px 200px at 50% 80%, rgba(0, 40, 97, 0.08), transparent);
+  }
+
+  /* Layer 2: Hero image */
+  .layer-hero {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inset: 0;
+  }
+  .layer-hero img {
+    width: 65%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 24px rgba(0, 40, 97, 0.15));
+  }
+
+  /* Layer 3: Floating hexagons */
+  .layer-hexagons {
+    z-index: 3;
+    pointer-events: none;
+  }
+  .hex {
+    position: absolute;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    border: 1px solid rgba(0, 142, 186, 0.2);
+  }
+  .hex::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    border: 1px solid rgba(43, 181, 178, 0.15);
+  }
+  .hex-1 { width: 80px; height: 80px; top: 10%; left: 8%; background: rgba(0, 142, 186, 0.06); }
+  .hex-2 { width: 50px; height: 50px; top: 25%; right: 12%; background: rgba(43, 181, 178, 0.05); }
+  .hex-3 { width: 65px; height: 65px; bottom: 20%; left: 15%; background: rgba(0, 40, 97, 0.04); }
+  .hex-4 { width: 40px; height: 40px; bottom: 35%; right: 8%; background: rgba(0, 142, 186, 0.05); }
+  .hex-5 { width: 55px; height: 55px; top: 55%; left: 70%; background: rgba(43, 181, 178, 0.04); }
+
+  /* Layer 4: Glowing dots */
+  .layer-dots {
+    z-index: 4;
+    pointer-events: none;
+  }
+  .dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(0, 142, 186, 0.5);
+    box-shadow: 0 0 8px 2px rgba(0, 142, 186, 0.3);
+  }
+  .dot-1 { top: 15%; left: 20%; }
+  .dot-2 { top: 30%; right: 18%; background: rgba(43, 181, 178, 0.5); box-shadow: 0 0 8px 2px rgba(43, 181, 178, 0.3); }
+  .dot-3 { bottom: 25%; left: 30%; }
+  .dot-4 { top: 50%; left: 10%; background: rgba(43, 181, 178, 0.4); box-shadow: 0 0 6px 2px rgba(43, 181, 178, 0.25); }
+  .dot-5 { bottom: 15%; right: 25%; }
+  .dot-6 { top: 40%; right: 10%; background: rgba(0, 40, 97, 0.4); box-shadow: 0 0 6px 2px rgba(0, 40, 97, 0.2); }
+  .dot-7 { bottom: 40%; left: 55%; }
+  .dot-8 { top: 20%; left: 60%; background: rgba(43, 181, 178, 0.45); box-shadow: 0 0 7px 2px rgba(43, 181, 178, 0.25); }
+</style>
+</head>
+<body>
+
+<div class="spacer">↓ Scroll down ↓</div>
+
+<div class="parallax-container" id="pc">
+  <div class="parallax-layer layer-honeycomb" data-speed="0.15" data-scale="0.02"></div>
+  <div class="parallax-layer layer-gradients" data-speed="0.3" data-scale="0.015"></div>
+  <div class="parallax-layer layer-hero" data-speed="0.5" data-scale="0.01">
+    <img src="b-hero.jpg" alt="PhishFort scanning illustration">
+  </div>
+  <div class="parallax-layer layer-hexagons" data-speed="0.7" data-scale="0.005">
+    <div class="hex hex-1"></div>
+    <div class="hex hex-2"></div>
+    <div class="hex hex-3"></div>
+    <div class="hex hex-4"></div>
+    <div class="hex hex-5"></div>
+  </div>
+  <div class="parallax-layer layer-dots" data-speed="0.9" data-scale="0.003">
+    <div class="dot dot-1"></div>
+    <div class="dot dot-2"></div>
+    <div class="dot dot-3"></div>
+    <div class="dot dot-4"></div>
+    <div class="dot dot-5"></div>
+    <div class="dot dot-6"></div>
+    <div class="dot dot-7"></div>
+    <div class="dot dot-8"></div>
+  </div>
+</div>
+
+<div class="spacer">↑ Scroll up ↑</div>
+
+<script>
+  const container = document.getElementById('pc');
+  const layers = container.querySelectorAll('.parallax-layer');
+
+  function update() {
+    const rect = container.getBoundingClientRect();
+    const viewH = window.innerHeight;
+    const center = rect.top + rect.height / 2 - viewH / 2;
+    const progress = center / viewH; // -1 to 1 range roughly
+
+    layers.forEach(layer => {
+      const speed = parseFloat(layer.dataset.speed);
+      const scaleFactor = parseFloat(layer.dataset.scale);
+      const y = -progress * speed * 80;
+      const s = 1 + progress * scaleFactor;
+      layer.style.transform = `translateY(${y}px) scale(${s})`;
+    });
+
+    requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+</script>
+
+</body>
+</html>
