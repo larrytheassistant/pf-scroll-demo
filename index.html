@@ -3,98 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PhishFort — Parallax Demo A</title>
+<title>PhishFort — Layered Parallax Demo</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Poppins', -apple-system, sans-serif; background: #F8FAFB; color: #002861; overflow-x: hidden; }
+  body {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    background: #F8FAFB;
+    color: #002861;
+    overflow-x: hidden;
+  }
 
-  .spacer { height: 80vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.5rem; }
+  .spacer {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
   .spacer h1 { font-size: 2rem; font-weight: 700; text-align: center; padding: 0 1rem; }
-  .spacer p { color: #393A3B; opacity: 0.6; }
+  .spacer p { color: #393A3B; opacity: 0.6; font-size: 0.95rem; }
 
-  .parallax-section {
+  /* The layered image container */
+  .parallax-image {
     position: relative;
-    padding: 4rem 1rem;
-    min-height: 100vh;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    aspect-ratio: 16/9;
+    overflow: visible;
+  }
+
+  .parallax-image .layer {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+  }
+
+  .parallax-image .layer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Blend away white backgrounds on overlay layers */
+  .layer.blend {
+    mix-blend-mode: multiply;
+  }
+
+  .scene {
+    padding: 2rem 1rem;
+    min-height: 120vh;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  /* Honeycomb bg - slowest layer */
-  .layer-bg {
-    position: absolute;
-    inset: -30%;
-    background: url('honeycomb-bg.png') repeat;
-    background-size: 350px;
-    opacity: 0.35;
-    will-change: transform;
+  .bottom-spacer {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
   }
 
-  .grid {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    max-width: 1000px;
-    width: 100%;
+  @media (max-width: 600px) {
+    .parallax-image { max-width: 95vw; }
+    .spacer h1 { font-size: 1.5rem; }
   }
-
-  .card {
-    border-radius: 14px;
-    overflow: hidden;
-    background: white;
-    box-shadow: 0 2px 16px rgba(0,40,97,0.06);
-    will-change: transform;
-  }
-
-  .card img { width: 100%; height: auto; display: block; }
-
-  .bottom-spacer { height: 80vh; display: flex; align-items: center; justify-content: center; opacity: 0.4; }
-
-  h2.demo-label {
-    position: fixed; top: 12px; left: 12px; font-size: 0.75rem; background: #002861; color: white;
-    padding: 4px 10px; border-radius: 6px; z-index: 99; opacity: 0.8;
-  }
-
-  @media (max-width: 600px) { .grid { gap: 0.75rem; } .spacer h1 { font-size: 1.5rem; } }
 </style>
 </head>
 <body>
 
-<h2 class="demo-label">A: Depth Layers (each card different speed)</h2>
-
 <div class="spacer">
-  <h1>Comprehensive Digital Protection</h1>
-  <p>↓ Scroll to see parallax effect</p>
+  <h1>Website Takedown</h1>
+  <p>↓ Scroll — layers shift independently</p>
 </div>
 
-<section class="parallax-section">
-  <div class="layer-bg" id="bg"></div>
-  <div class="grid">
-    <div class="card" data-speed="0.08"><img src="v4-tl-website.png" alt="Website"></div>
-    <div class="card" data-speed="-0.05"><img src="v4-tr-app.png" alt="App"></div>
-    <div class="card" data-speed="0.12"><img src="v4-bl-social.png" alt="Social"></div>
-    <div class="card" data-speed="-0.08"><img src="v4-br-darkweb.png" alt="Dark Web"></div>
+<section class="scene">
+  <div class="parallax-image" id="parallax">
+    <!-- Layer 1: Honeycomb background (moves slowest) -->
+    <div class="layer" data-speed="0.03" id="l1">
+      <img src="layer1-bg.png" alt="Background">
+    </div>
+    <!-- Layer 2: Browser window (moves medium) -->
+    <div class="layer blend" data-speed="0.07" id="l2">
+      <img src="layer2-browser.png" alt="Browser">
+    </div>
+    <!-- Layer 3: Shield (moves faster) -->
+    <div class="layer blend" data-speed="0.13" id="l3">
+      <img src="layer3-shield.png" alt="Shield">
+    </div>
+    <!-- Layer 4: Floating particles (moves fastest) -->
+    <div class="layer blend" data-speed="0.18" id="l4">
+      <img src="layer4-particles.png" alt="Particles">
+    </div>
   </div>
 </section>
 
-<div class="bottom-spacer"><p>✦ End</p></div>
+<div class="bottom-spacer"><p>✦ End of demo</p></div>
 
 <script>
-  // Each card moves at its own speed — creates depth as layers shift independently
-  const bg = document.getElementById('bg');
-  const cards = document.querySelectorAll('.card');
+  const container = document.getElementById('parallax');
+  const layers = document.querySelectorAll('.layer');
   let ticking = false;
 
   window.addEventListener('scroll', () => {
     if (!ticking) {
       requestAnimationFrame(() => {
-        const y = window.scrollY;
-        bg.style.transform = `translateY(${y * 0.05}px)`;
-        cards.forEach(c => {
-          const speed = parseFloat(c.dataset.speed);
-          c.style.transform = `translateY(${y * speed}px)`;
+        const rect = container.getBoundingClientRect();
+        const centerY = rect.top + rect.height / 2;
+        const viewCenter = window.innerHeight / 2;
+        const offset = viewCenter - centerY;
+
+        layers.forEach(layer => {
+          const speed = parseFloat(layer.dataset.speed);
+          layer.style.transform = `translateY(${offset * speed}px)`;
         });
         ticking = false;
       });
