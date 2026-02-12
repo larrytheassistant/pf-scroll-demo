@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhishFort — All 4 Parallax Illustrations</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    background: #F8FAFB;
+    color: #002861;
+    overflow-x: hidden;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 3rem 1rem 1rem;
+  }
+  .page-header h1 { font-size: 1.8rem; font-weight: 700; }
+  .page-header p { color: #393A3B; opacity: 0.5; margin-top: 0.3rem; font-size: 0.9rem; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .card {
+    text-align: center;
+  }
+  .card-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #008EBA;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #002861;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Parallax container */
+  .parallax-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/2;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,40,97,0.08);
+    background: #F8FAFB;
+  }
+
+  .parallax-box .layer {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+  }
+
+  /* Layer 0: Honeycomb bg */
+  .layer-hc {
+    inset: -15% !important;
+    background: url('d-back.png') no-repeat center center;
+    background-size: cover;
+    opacity: 0.45;
+  }
+
+  /* Layer 1: Gradient blobs — unique per card */
+  .layer-grad {
+    pointer-events: none;
+  }
+  .card:nth-child(1) .layer-grad {
+    background: radial-gradient(ellipse 50% 40% at 30% 40%, rgba(0,142,186,0.12), transparent),
+                radial-gradient(ellipse 40% 50% at 70% 60%, rgba(43,181,178,0.1), transparent);
+  }
+  .card:nth-child(2) .layer-grad {
+    background: radial-gradient(ellipse 45% 45% at 50% 35%, rgba(43,181,178,0.12), transparent),
+                radial-gradient(ellipse 50% 40% at 25% 65%, rgba(0,142,186,0.08), transparent);
+  }
+  .card:nth-child(3) .layer-grad {
+    background: radial-gradient(ellipse 50% 50% at 40% 50%, rgba(0,142,186,0.1), transparent),
+                radial-gradient(ellipse 40% 40% at 75% 30%, rgba(43,181,178,0.1), transparent);
+  }
+  .card:nth-child(4) .layer-grad {
+    background: radial-gradient(ellipse 55% 55% at 50% 50%, rgba(43,181,178,0.12), transparent),
+                radial-gradient(ellipse 35% 45% at 20% 70%, rgba(0,142,186,0.08), transparent);
+  }
+
+  /* Layer 2: Hero image */
+  .layer-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .layer-hero img {
+    width: 82%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 20px rgba(0,40,97,0.15));
+  }
+
+  /* Layer 3: Hexagons */
+  .hex {
+    position: absolute;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: rgba(43,181,178,0.35);
+  }
+  .hex::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background: #F8FAFB;
+  }
+
+  /* Layer 4: Dots */
+  .dot {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0,142,186,0.6);
+    box-shadow: 0 0 6px 2px rgba(0,142,186,0.25);
+  }
+
+  .bottom-spacer {
+    height: 40vh;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.3; font-size: 0.85rem;
+  }
+
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: 1fr; max-width: 500px; }
+    .page-header h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Comprehensive Digital Protection</h1>
+  <p>↓ Scroll to see the parallax depth effect</p>
+</div>
+
+<div class="grid">
+
+  <!-- 1. Website Takedown -->
+  <div class="card">
+    <div class="card-label">Website</div>
+    <div class="card-title">Phishing Site Detection & Takedown</div>
+    <div class="parallax-box" data-parallax>
+      <div class="layer layer-hc" data-speed="-0.03" data-rot="0.5"></div>
+      <div class="layer layer-grad" data-speed="0.02" data-rot="0.3"></div>
+      <div class="layer layer-hero" data-speed="0.06" data-rot="-0.2">
+        <img src="hero-website-v4.png" alt="">
+      </div>
+      <div class="layer" data-speed="0.10" data-rot="-0.8">
+        <div class="hex" style="width:30px;height:30px;top:10%;left:8%"></div>
+        <div class="hex" style="width:22px;height:22px;top:22%;right:10%"></div>
+        <div class="hex" style="width:26px;height:26px;bottom:15%;left:12%"></div>
+        <div class="hex" style="width:34px;height:34px;bottom:28%;right:7%"></div>
+        <div class="hex" style="width:18px;height:18px;top:55%;left:5%"></div>
+      </div>
+      <div class="layer" data-speed="0.16" data-rot="-1.5">
+        <div class="dot" style="width:5px;height:5px;top:12%;left:25%"></div>
+        <div class="dot" style="width:4px;height:4px;top:20%;right:18%"></div>
+        <div class="dot" style="width:5px;height:5px;bottom:20%;left:35%"></div>
+        <div class="dot" style="width:3px;height:3px;top:65%;right:25%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Fake App Detection -->
+  <div class="card">
+    <div class="card-label">Mobile App</div>
+    <div class="card-title">Fake App Detection & Removal</div>
+    <div class="parallax-box" data-parallax>
+      <div class="layer layer-hc" data-speed="-0.03" data-rot="0.4"></div>
+      <div class="layer layer-grad" data-speed="0.02" data-rot="0.25"></div>
+      <div class="layer layer-hero" data-speed="0.06" data-rot="-0.15">
+        <img src="hero-app-v4.png" alt="">
+      </div>
+      <div class="layer" data-speed="0.10" data-rot="-0.7">
+        <div class="hex" style="width:28px;height:28px;top:8%;right:12%"></div>
+        <div class="hex" style="width:24px;height:24px;bottom:18%;left:8%"></div>
+        <div class="hex" style="width:32px;height:32px;top:45%;right:5%"></div>
+        <div class="hex" style="width:20px;height:20px;bottom:10%;right:30%"></div>
+        <div class="hex" style="width:26px;height:26px;top:15%;left:5%"></div>
+      </div>
+      <div class="layer" data-speed="0.16" data-rot="-1.3">
+        <div class="dot" style="width:5px;height:5px;top:15%;right:30%"></div>
+        <div class="dot" style="width:4px;height:4px;bottom:25%;left:20%"></div>
+        <div class="dot" style="width:3px;height:3px;top:50%;left:10%"></div>
+        <div class="dot" style="width:5px;height:5px;bottom:12%;right:15%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Brand Impersonation -->
+  <div class="card">
+    <div class="card-label">Social Media</div>
+    <div class="card-title">Brand Impersonation Monitoring</div>
+    <div class="parallax-box" data-parallax>
+      <div class="layer layer-hc" data-speed="-0.03" data-rot="0.45"></div>
+      <div class="layer layer-grad" data-speed="0.02" data-rot="0.2"></div>
+      <div class="layer layer-hero" data-speed="0.06" data-rot="-0.18">
+        <img src="hero-social.png" alt="">
+      </div>
+      <div class="layer" data-speed="0.10" data-rot="-0.75">
+        <div class="hex" style="width:32px;height:32px;top:12%;left:6%"></div>
+        <div class="hex" style="width:20px;height:20px;top:30%;right:8%"></div>
+        <div class="hex" style="width:28px;height:28px;bottom:12%;left:15%"></div>
+        <div class="hex" style="width:24px;height:24px;bottom:35%;right:10%"></div>
+        <div class="hex" style="width:18px;height:18px;top:60%;left:4%"></div>
+      </div>
+      <div class="layer" data-speed="0.16" data-rot="-1.4">
+        <div class="dot" style="width:5px;height:5px;top:10%;left:30%"></div>
+        <div class="dot" style="width:4px;height:4px;top:40%;right:12%"></div>
+        <div class="dot" style="width:3px;height:3px;bottom:18%;left:45%"></div>
+        <div class="dot" style="width:5px;height:5px;bottom:30%;right:28%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Dark Web Monitoring -->
+  <div class="card">
+    <div class="card-label">Dark Web</div>
+    <div class="card-title">Threat Intelligence & Monitoring</div>
+    <div class="parallax-box" data-parallax>
+      <div class="layer layer-hc" data-speed="-0.03" data-rot="0.5"></div>
+      <div class="layer layer-grad" data-speed="0.02" data-rot="0.3"></div>
+      <div class="layer layer-hero" data-speed="0.06" data-rot="-0.2">
+        <img src="hero-darkweb-v4.png" alt="">
+      </div>
+      <div class="layer" data-speed="0.10" data-rot="-0.8">
+        <div class="hex" style="width:30px;height:30px;top:8%;right:8%"></div>
+        <div class="hex" style="width:26px;height:26px;bottom:15%;right:12%"></div>
+        <div class="hex" style="width:22px;height:22px;top:40%;left:6%"></div>
+        <div class="hex" style="width:36px;height:36px;bottom:8%;left:10%"></div>
+        <div class="hex" style="width:18px;height:18px;top:18%;left:15%"></div>
+      </div>
+      <div class="layer" data-speed="0.16" data-rot="-1.5">
+        <div class="dot" style="width:5px;height:5px;top:15%;right:25%"></div>
+        <div class="dot" style="width:4px;height:4px;bottom:22%;left:30%"></div>
+        <div class="dot" style="width:3px;height:3px;top:55%;right:10%"></div>
+        <div class="dot" style="width:5px;height:5px;bottom:10%;right:40%"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-spacer"><p>✦ PhishFort — Digital Protection</p></div>
+
+<script>
+  const boxes = document.querySelectorAll('[data-parallax]');
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        boxes.forEach(box => {
+          const rect = box.getBoundingClientRect();
+          const centerY = rect.top + rect.height / 2;
+          const viewCenter = window.innerHeight / 2;
+          const offset = viewCenter - centerY;
+
+          box.querySelectorAll('.layer').forEach(layer => {
+            const speed = parseFloat(layer.dataset.speed) || 0;
+            const rot = parseFloat(layer.dataset.rot) || 0;
+            const ty = offset * speed;
+            const r = offset * rot * 0.003;
+            layer.style.transform = `translate3d(0,${ty}px,0) rotate(${r}deg)`;
+          });
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+</script>
+</body>
+</html>
