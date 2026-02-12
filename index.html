@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PhishFort — Layered Parallax Demo</title>
+<title>PhishFort — Layered Parallax</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -14,99 +14,139 @@
   }
 
   .spacer {
-    height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 0.5rem;
+    height: 60vh;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0.5rem;
   }
-  .spacer h1 { font-size: 2rem; font-weight: 700; text-align: center; padding: 0 1rem; }
-  .spacer p { color: #393A3B; opacity: 0.6; font-size: 0.95rem; }
+  .spacer h1 { font-size: 1.8rem; font-weight: 700; text-align: center; padding: 0 1rem; }
+  .spacer p { color: #393A3B; opacity: 0.5; font-size: 0.9rem; }
 
-  /* The layered image container */
-  .parallax-image {
+  .scene {
+    min-height: 120vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  /* Container for the layered image */
+  .parallax-container {
     position: relative;
     width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
+    max-width: 650px;
     aspect-ratio: 16/9;
-    overflow: visible;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0, 40, 97, 0.1);
   }
 
-  .parallax-image .layer {
+  /* Layer 0: Honeycomb SVG pattern (deepest, slowest) */
+  .layer-honeycomb {
     position: absolute;
-    inset: 0;
+    inset: -20%;
+    opacity: 0.18;
+    will-change: transform;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%23008EBA' stroke-width='0.8'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23008EBA' stroke-width='0.3'/%3E%3C/svg%3E");
+    background-size: 56px 100px;
+  }
+
+  /* Layer 1: Main illustration (middle speed) */
+  .layer-image {
+    position: absolute;
+    inset: -5%;
     will-change: transform;
   }
-
-  .parallax-image .layer img {
+  .layer-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
   }
 
-  /* Blend away white backgrounds on overlay layers */
-  .layer.blend {
-    mix-blend-mode: multiply;
+  /* Layer 2: Gradient overlay (slightly faster) */
+  .layer-gradient {
+    position: absolute;
+    inset: -10%;
+    will-change: transform;
+    background: radial-gradient(ellipse at 70% 40%, rgba(0,142,186,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 70%, rgba(43,181,178,0.1) 0%, transparent 50%);
+    pointer-events: none;
   }
 
-  .scene {
-    padding: 2rem 1rem;
-    min-height: 120vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* Layer 3: Floating hexagons (foreground, fastest) */
+  .layer-hexagons {
+    position: absolute;
+    inset: -15%;
+    will-change: transform;
+    pointer-events: none;
   }
 
-  .bottom-spacer {
-    height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.4;
+  .hex {
+    position: absolute;
+    background: rgba(0, 142, 186, 0.12);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   }
+
+  .hex:nth-child(1) { width: 35px; height: 35px; top: 12%; left: 8%; }
+  .hex:nth-child(2) { width: 20px; height: 20px; top: 25%; right: 12%; background: rgba(43,181,178,0.15); }
+  .hex:nth-child(3) { width: 28px; height: 28px; bottom: 20%; left: 15%; background: rgba(43,181,178,0.1); }
+  .hex:nth-child(4) { width: 16px; height: 16px; top: 60%; right: 20%; }
+  .hex:nth-child(5) { width: 40px; height: 40px; bottom: 10%; right: 8%; background: rgba(0,142,186,0.08); }
+  .hex:nth-child(6) { width: 12px; height: 12px; top: 8%; left: 45%; background: rgba(43,181,178,0.18); }
+  .hex:nth-child(7) { width: 24px; height: 24px; bottom: 35%; left: 5%; }
+  .hex:nth-child(8) { width: 18px; height: 18px; top: 45%; right: 5%; background: rgba(0,142,186,0.15); }
+
+  /* Glowing dots */
+  .dot {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0, 142, 186, 0.25);
+    box-shadow: 0 0 8px rgba(0, 142, 186, 0.3);
+  }
+  .dot:nth-child(9) { width: 6px; height: 6px; top: 18%; left: 30%; }
+  .dot:nth-child(10) { width: 4px; height: 4px; top: 70%; right: 25%; background: rgba(43,181,178,0.3); }
+  .dot:nth-child(11) { width: 5px; height: 5px; bottom: 15%; left: 40%; }
+  .dot:nth-child(12) { width: 3px; height: 3px; top: 35%; right: 35%; background: rgba(43,181,178,0.35); }
+
+  .bottom-spacer { height: 60vh; display: flex; align-items: center; justify-content: center; opacity: 0.3; font-size: 0.85rem; }
 
   @media (max-width: 600px) {
-    .parallax-image { max-width: 95vw; }
-    .spacer h1 { font-size: 1.5rem; }
+    .parallax-container { max-width: 95vw; }
+    .spacer h1 { font-size: 1.4rem; }
   }
 </style>
 </head>
 <body>
 
 <div class="spacer">
-  <h1>Website Takedown</h1>
-  <p>↓ Scroll — layers shift independently</p>
+  <h1>Phishing Site Detection & Takedown</h1>
+  <p>↓ Scroll to see the depth effect</p>
 </div>
 
 <section class="scene">
-  <div class="parallax-image" id="parallax">
-    <!-- Layer 1: Honeycomb background (moves slowest) -->
-    <div class="layer" data-speed="0.03" id="l1">
-      <img src="layer1-bg.jpg" alt="Background">
-    </div>
-    <!-- Layer 2: Browser window (moves medium) -->
-    <div class="layer blend" data-speed="0.07" id="l2">
-      <img src="layer2-browser.jpg" alt="Browser">
-    </div>
-    <!-- Layer 3: Shield (moves faster) -->
-    <div class="layer blend" data-speed="0.13" id="l3">
-      <img src="layer3-shield.jpg" alt="Shield">
-    </div>
-    <!-- Layer 4: Floating particles (moves fastest) -->
-    <div class="layer blend" data-speed="0.18" id="l4">
-      <img src="layer4-particles.jpg" alt="Particles">
+  <div class="parallax-container" id="pc">
+    <div class="layer-honeycomb" data-speed="-0.04"></div>
+    <div class="layer-image" data-speed="0.02"><img src="hero.jpg" alt=""></div>
+    <div class="layer-gradient" data-speed="0.06"></div>
+    <div class="layer-hexagons" data-speed="0.12">
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
     </div>
   </div>
 </section>
 
-<div class="bottom-spacer"><p>✦ End of demo</p></div>
+<div class="bottom-spacer"><p>✦ End</p></div>
 
 <script>
-  const container = document.getElementById('parallax');
-  const layers = document.querySelectorAll('.layer');
+  const container = document.getElementById('pc');
+  const layers = container.querySelectorAll('[data-speed]');
   let ticking = false;
 
   window.addEventListener('scroll', () => {
